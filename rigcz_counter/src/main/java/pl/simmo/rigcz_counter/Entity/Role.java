@@ -6,9 +6,7 @@ import org.hibernate.annotations.SQLInsert;
 import javax.persistence.*;
 
 @Entity
-@SQLInsert(sql = "INSERT INTO roles(name) VALUES('ROLE_USER');\n" +
-        "INSERT INTO roles(name) VALUES('ROLE_PM');\n" +
-        "INSERT INTO roles(name) VALUES('ROLE_ADMIN');\n")
+
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
