@@ -20,16 +20,20 @@ spring:
     jpa:
       hibernate:
         ddl-auto: update
-        generate-ddl: true
-        database-platform: org:hibernate.dialect.PostgreSQL94Dialect
-        show-sql: true
-        
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
     server:
       port: ${PORT}
       servlet:
         context-path: /
     session:
       store-type: none
+  datasource:
+    url: jdbc:postgresql://zazvbsplxiyvcu:db49b658d0eb69f05325c7f64db73e272c14ab6128b4ae6549bdbc4aa16e462b@ec2-3-216-181-219.compute-1.amazonaws.com:5432/d7q0j169h524s0
+    username: zazvbsplxiyvcu
+    password: db49b658d0eb69f05325c7f64db73e272c14ab6128b4ae6549bdbc4aa16e462b
 simmo:
   app:
     jwtSecret: jwtSimmo.comSecretKey
