@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Setter
 public class DbEntity {
     @Id
-    @SequenceGenerator(name = "generatorEn")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator ="generatorEn" )
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;

@@ -23,9 +23,9 @@ public class User  {
 
 
 
-     @Id
-     @SequenceGenerator(name = "generatorUser")
-     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator ="generatorUser" )
+    @Id
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
