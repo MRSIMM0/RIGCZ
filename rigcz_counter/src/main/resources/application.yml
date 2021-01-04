@@ -28,7 +28,6 @@ simmo:
       port: ${PORT}
       servlet:
         context-path: /
-
 ---
 spring:
   profiles: prod
