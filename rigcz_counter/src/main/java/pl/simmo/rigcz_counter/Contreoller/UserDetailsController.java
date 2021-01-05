@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class UserDetailsController {
 
     private UserRepo userRepo;
