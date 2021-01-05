@@ -31,10 +31,10 @@ spring:
   mvc:
     async:
       request-timeout: -1
-  simmo:
-    app:
-      jwtSecret: jwtSimmo.comSecretKey
-      jwtExpiration: 86400
+simmo:
+  app:
+    jwtSecret: jwtSimmo.comSecretKey
+    jwtExpiration: 86400
 
     jpa:
       hibernate:
