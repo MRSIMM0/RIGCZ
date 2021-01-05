@@ -5,6 +5,8 @@ import java.util.Set;
 public class RegisterForm {
     private String username;
 
+    private String name;
+
     private String password;
 
     private Set<String> role;
@@ -31,5 +33,13 @@ public class RegisterForm {
 
     public void setRole(Set<String> role) {
         this.role = role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

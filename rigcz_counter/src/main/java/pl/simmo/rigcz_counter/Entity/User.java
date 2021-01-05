@@ -28,6 +28,8 @@ public class User  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     private String username;
 
     private String password;
@@ -39,9 +41,10 @@ public class User  {
     private Set<Role> roles = new HashSet<>();
 
     User(){}
-    public User( String username, String password) {
+    public User( String username, String password, String name) {
         this.username = username;
         this.password = password;
+        this.name = name;
     }
 
     public Long getId() {
@@ -74,5 +77,13 @@ public class User  {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

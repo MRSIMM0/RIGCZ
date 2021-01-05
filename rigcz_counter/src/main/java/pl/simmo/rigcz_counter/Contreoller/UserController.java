@@ -83,7 +83,7 @@ public class UserController {
 
 
         // Creating user's account
-        User user = new User(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()));
+        User user = new User(signUpRequest.getUsername(), encoder.encode(signUpRequest.getPassword()),signUpRequest.getName());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
