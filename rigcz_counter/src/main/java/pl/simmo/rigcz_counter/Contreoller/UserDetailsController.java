@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api/")
+@RequestMapping("/api/auth")
 public class UserDetailsController {
 
     private UserRepo userRepo;
@@ -19,9 +19,9 @@ public class UserDetailsController {
         this.userRepo = userRepo;
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('PM')")
-    ResponseEntity<?> getUser(@RequestBody String username){
+    ResponseEntity<?> getUser(@PathVariable String username){
        if(userRepo.findUserByUsername(username).isPresent()){
            UserDetails u = new UserDetails();
            u.setName(userRepo.findUserByUsername(username).get().getName());
