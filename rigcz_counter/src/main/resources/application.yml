@@ -31,14 +31,15 @@ spring:
   mvc:
     async:
       request-timeout: -1
+  jpa:
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
 simmo:
   app:
     jwtSecret: jwtSimmo.comSecretKey
     jwtExpiration: 86400
 
-    jpa:
-      hibernate:
-        ddl-auto: create
 
     server:
       port: ${PORT}
