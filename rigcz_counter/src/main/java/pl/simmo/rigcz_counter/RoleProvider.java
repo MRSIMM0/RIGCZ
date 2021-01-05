@@ -17,8 +17,16 @@ public class RoleProvider implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
-       roleRepository.save(new Role(RoleName.ROLE_USER));
-      roleRepository.save(new Role(RoleName.ROLE_ADMIN));
-      roleRepository.save(new Role(RoleName.ROLE_PM));
+        if(roleRepository.findByName(RoleName.ROLE_USER).isPresent()==false){
+            roleRepository.save(new Role(RoleName.ROLE_USER));
+        }
+        if(roleRepository.findByName(RoleName.ROLE_ADMIN).isPresent()==false){
+            roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+        }
+        if(roleRepository.findByName(RoleName.ROLE_PM).isPresent()==false){
+            roleRepository.save(new Role(RoleName.ROLE_PM));
+        }
+
+
     }
 }

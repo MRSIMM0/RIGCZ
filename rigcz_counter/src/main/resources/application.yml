@@ -4,35 +4,21 @@ spring:
 ---
 spring:
   profiles: dev
-#  datasource:
-#    url: jdbc:h2:mem:testdb
-#    driver-class-name: org.h2.Driver
-#    username: sa
-#  h2:
-#    console:
-#      enabled: true
-#      settings:
-#        web-allow-others: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
   mvc:
     async:
       request-timeout: -1
 
-    jpa:
-      hibernate:
-        ddl-auto: create
 
-    server:
-      port: ${PORT}
-      servlet:
-        context-path: /
-  datasource:
-    url: ${JDBC_DATABASE_URL}
-    username: ${JDBC_DATABASE_USERNAME}
-    password: ${JDBC_DATABASE_PASSWORD}
-
-  jpa:
-    show-sql: false
-    generate-ddl: true
 
 simmo:
   app:
@@ -50,11 +36,19 @@ spring:
       jwtSecret: jwtSimmo.comSecretKey
       jwtExpiration: 86400
 
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-server:
-  port: ${PORT}
-  servlet:
-    context-path: /
+    jpa:
+      hibernate:
+        ddl-auto: create
 
+    server:
+      port: ${PORT}
+      servlet:
+        context-path: /
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+
+  jpa:
+    show-sql: false
+    generate-ddl: true
