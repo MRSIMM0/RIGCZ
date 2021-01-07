@@ -1,6 +1,7 @@
 package pl.simmo.rigcz_counter.Contreoller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -13,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class EntityController {
 
     private EntityRepo entityRepo;
@@ -28,7 +29,7 @@ public class EntityController {
 
 
 
-
+    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     @PostMapping("/new")
     public DbEntity add(@RequestBody DbEntity entity, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
