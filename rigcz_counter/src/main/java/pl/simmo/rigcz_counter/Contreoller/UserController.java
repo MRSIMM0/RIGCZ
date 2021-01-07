@@ -5,6 +5,7 @@ import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -91,17 +92,8 @@ public class UserController {
         strRoles.forEach(role -> {
             switch(role) {
                 case "admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(adminRole);
-
-                    break;
                 case "pm":
-                    Role pmRole = roleRepository.findByName(RoleName.ROLE_PM)
-                            .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-                    roles.add(pmRole);
-
-                    break;
+                    throw new RuntimeException("Not enough permissions");
                 case "user":
                     Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                             .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
@@ -112,8 +104,40 @@ public class UserController {
 
         user.setRoles(roles);
         userRepository.save(user);
-
         return ResponseEntity.ok().build();
     }
+
+   @PostMapping("/addUserOrAdmin")
+   @PreAuthorize("hasRole('ADMIN') or hasRole('PM')")
+   public ResponseEntity<String> addAdmin(@Validated @RequestBody RegisterForm registerForm){
+       if(userRepository.existsByUsername(registerForm.getUsername())) {
+           return new ResponseEntity<String>("Fail -> Username is already taken!",
+                   HttpStatus.BAD_REQUEST);
+       }
+       User user = new User(registerForm.getUsername(), encoder.encode(registerForm.getPassword()),registerForm.getName());
+
+       Set<String> strRoles = registerForm.getRole();
+       Set<Role> roles = new HashSet<>();
+
+       strRoles.forEach(role -> {
+           switch(role) {
+               case "admin":
+                   Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                           .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                   roles.add(adminRole);
+                   break;
+               case "pm":
+                   throw new RuntimeException("Not enough permissions");
+               case "user":
+                   Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                           .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+                   roles.add(userRole);
+                   break;
+           }
+       });
+       user.setRoles(roles);
+       userRepository.save(user);
+       return ResponseEntity.ok().build();
+   }
 }
 
