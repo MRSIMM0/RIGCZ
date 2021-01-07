@@ -1,6 +1,7 @@
 package pl.simmo.rigcz_counter;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.simmo.rigcz_counter.Entity.Role;
 import pl.simmo.rigcz_counter.Entity.RoleName;
@@ -16,6 +17,7 @@ public class RoleProvider implements CommandLineRunner{
 
     private RoleRepository roleRepository;
     private UserRepo userRepo;
+    private PasswordEncoder passwordEncoder;
 
     public RoleProvider(RoleRepository roleRepository, UserRepo userRepo) {
         this.roleRepository = roleRepository;
@@ -39,7 +41,7 @@ public class RoleProvider implements CommandLineRunner{
          Set<Role> roles = new HashSet<>();
          roles.add(roleRepository.findByName(RoleName.ROLE_ADMIN).get());
          roles.add(roleRepository.findByName(RoleName.ROLE_PM).get());
-         User user = new User(admin,admin,admin);
+         User user = new User(admin,passwordEncoder.encode(admin),admin);
          user.setRoles(roles);
          userRepo.save(user);
         }
