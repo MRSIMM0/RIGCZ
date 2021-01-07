@@ -19,9 +19,10 @@ public class RoleProvider implements CommandLineRunner{
     private UserRepo userRepo;
     private PasswordEncoder passwordEncoder;
 
-    public RoleProvider(RoleRepository roleRepository, UserRepo userRepo) {
+    public RoleProvider(RoleRepository roleRepository, UserRepo userRepo, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
