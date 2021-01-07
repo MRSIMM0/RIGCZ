@@ -42,7 +42,7 @@ public class UserDetailsController {
         Set<UserDetails> userDetailsSet  = users.stream().map(u ->{
             UserDetails userD = new UserDetails();
             userD.setName(u.getName());
-            userD.setRole(u.getRoles().stream().map(role -> role.toString()).collect(Collectors.toList()));
+            userD.setRole(u.getRoles().stream().map(role -> role.getName().toString()).collect(Collectors.toList()));
             userD.setUsername(u.getUsername());
             return userD;
         }).collect(Collectors.toSet());
