@@ -14,7 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class EntityController {
 
     private EntityRepo entityRepo;
