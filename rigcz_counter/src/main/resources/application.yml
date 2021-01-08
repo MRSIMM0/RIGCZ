@@ -35,11 +35,11 @@ spring:
     hibernate:
       ddl-auto: create
     generate-ddl: true
+
 simmo:
   app:
     jwtSecret: jwtSimmo.comSecretKey
     jwtExpiration: 86400
-
 
     server:
       port: ${PORT}
