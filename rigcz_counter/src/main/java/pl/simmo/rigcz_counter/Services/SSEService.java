@@ -34,6 +34,7 @@ public class SSEService {
                 mod.setName(e.getName());
                 mod.setCraetedBy(e.getCraetedBy());
                 mod.setId(e.getId());
+                mod.setRigczLevel(e.getRigczLevel());
                 return mod;
             }).collect(Collectors.toList());
 

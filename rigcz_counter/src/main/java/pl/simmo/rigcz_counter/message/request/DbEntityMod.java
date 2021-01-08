@@ -8,6 +8,8 @@ public class DbEntityMod {
 
     private String craetedBy;
 
+    private int rigczLevel;
+
     private String userAdd;
 
     private String userMinus;
@@ -50,5 +52,14 @@ public class DbEntityMod {
 
     public void setUserMinus(String userMinus) {
         this.userMinus = userMinus;
+    }
+
+
+    public int getRigczLevel() {
+        return rigczLevel;
+    }
+
+    public void setRigczLevel(int rigczLevel) {
+        this.rigczLevel = rigczLevel;
     }
 }
