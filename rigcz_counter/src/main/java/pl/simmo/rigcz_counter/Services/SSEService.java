@@ -35,8 +35,8 @@ public class SSEService {
                 mod.setCraetedBy(e.getCraetedBy());
                 mod.setId(e.getId());
                 mod.setRigczLevel(e.getRigczLevel());
-                mod.setUserAdd(e.getUsersAdd().stream().map(add -> add.toString()).collect(Collectors.toSet()));
-                mod.setUserMinus(e.getUsersMinus().stream().map(minus -> minus.toString()).collect(Collectors.toSet()));
+                mod.setUserAdd(e.getUsersAdd().stream().map(add -> add.getUsername()).collect(Collectors.toSet()));
+                mod.setUserMinus(e.getUsersMinus().stream().map(minus -> minus.getUsername()).collect(Collectors.toSet()));
                 return mod;
             }).collect(Collectors.toList());
 
