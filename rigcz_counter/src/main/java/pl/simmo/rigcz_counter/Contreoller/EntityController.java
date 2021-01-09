@@ -48,7 +48,7 @@ public class EntityController {
         return service.getMyData();
     }
 
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     @PostMapping("/add")
     public ResponseEntity<String> update(@RequestBody DbEntityMod dbEntity) {
         DbEntity db = entityRepo.findById(dbEntity.getId()).orElseThrow(() -> new RuntimeException("Error"));
@@ -76,7 +76,7 @@ public class EntityController {
 
         return ResponseEntity.ok().build();
     }
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     @PostMapping("/minus")
     public ResponseEntity<String> miuns(@RequestBody DbEntityMod dbEntity) {
         DbEntity db = entityRepo.findById(dbEntity.getId()).orElseThrow(() -> new RuntimeException("Error"));
@@ -108,12 +108,12 @@ public class EntityController {
     }
 
     @GetMapping("/getUserEntities/{username}")
-        //    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+            @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     ResponseEntity<?> getUserEntities(@PathVariable String username){
        List<DbEntity> dbEntity = entityRepo.findByCreatedBy(userRepo.findUserByUsername(username).orElseThrow(() -> new RuntimeException("Unknown User.")));
 
        List<DbEntityMod> entity = dbEntity.stream().map(e ->{
-           
+
            DbEntityMod mod =  new DbEntityMod();
 
            mod.setId(e.getId());
