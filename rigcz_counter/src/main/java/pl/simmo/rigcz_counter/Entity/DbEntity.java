@@ -1,12 +1,8 @@
 package pl.simmo.rigcz_counter.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @javax.persistence.Entity
@@ -20,8 +16,9 @@ public class DbEntity {
 
 
     private int rigczLevel;
-
-    private String craetedBy;
+    @OneToOne
+    @JoinColumn
+    private User createdBy;
 
     @ManyToMany()
     private Set<User> UsersAdd;
@@ -29,10 +26,10 @@ public class DbEntity {
     @ManyToMany()
     private Set<User> UsersMinus;
 
-    public DbEntity(String name, int rigczLevel, String craetedBy, Set<User> usersAdd, Set<User> usersMinus) {
+    public DbEntity(String name, int rigczLevel, User createdBy, Set<User> usersAdd, Set<User> usersMinus) {
         this.name = name;
         this.rigczLevel = rigczLevel;
-        this.craetedBy = craetedBy;
+        this.createdBy = createdBy;
         UsersAdd = usersAdd;
         UsersMinus = usersMinus;
     }
@@ -61,12 +58,12 @@ public class DbEntity {
         this.rigczLevel = rigczLevel;
     }
 
-    public String getCraetedBy() {
-        return craetedBy;
+    public User getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCraetedBy(String craetedBy) {
-        this.craetedBy = craetedBy;
+    public void setCreatedBy(User craetedBy) {
+        this.createdBy = craetedBy;
     }
 
     public Set<User> getUsersAdd() {

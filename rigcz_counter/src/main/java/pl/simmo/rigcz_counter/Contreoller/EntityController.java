@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import pl.simmo.rigcz_counter.Entity.DbEntity;
 import pl.simmo.rigcz_counter.Entity.User;
@@ -14,7 +15,9 @@ import pl.simmo.rigcz_counter.Services.SSEService;
 import pl.simmo.rigcz_counter.message.request.DbEntityMod;
 
 import javax.activity.InvalidActivityException;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
@@ -36,7 +39,7 @@ public class EntityController {
         if (bindingResult.hasErrors()) {
             throw new Error("error");
         }
-        DbEntity entity1 = new DbEntity(entity.getName(), 0, entity.getCraetedBy(), null, null);
+        DbEntity entity1 = new DbEntity(entity.getName(), 0, userRepo.findUserByUsername(entity.getCraetedBy()).orElseThrow(()-> new RuntimeException("Unknown Creator")), null, null);
         return entityRepo.save(entity1);
     }
 
@@ -45,7 +48,7 @@ public class EntityController {
         return service.getMyData();
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     @PostMapping("/add")
     public ResponseEntity<String> update(@RequestBody DbEntityMod dbEntity) {
         DbEntity db = entityRepo.findById(dbEntity.getId()).orElseThrow(() -> new RuntimeException("Error"));
@@ -73,7 +76,7 @@ public class EntityController {
 
         return ResponseEntity.ok().build();
     }
-    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     @PostMapping("/minus")
     public ResponseEntity<String> miuns(@RequestBody DbEntityMod dbEntity) {
         DbEntity db = entityRepo.findById(dbEntity.getId()).orElseThrow(() -> new RuntimeException("Error"));
@@ -102,5 +105,27 @@ public class EntityController {
         entityRepo.save(db);
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/getUserEntities/{username}")
+        //    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+    ResponseEntity<?> getUserEntities(@PathVariable String username){
+       List<DbEntity> dbEntity = entityRepo.findByCreatedBy(userRepo.findUserByUsername(username).orElseThrow(() -> new RuntimeException("Unknown User.")));
+
+       List<DbEntityMod> entity = dbEntity.stream().map(e ->{
+           
+           DbEntityMod mod =  new DbEntityMod();
+
+           mod.setId(e.getId());
+           mod.setName(e.getName());
+           mod.setRigczLevel(e.getRigczLevel());
+           mod.setCraetedBy(e.getCreatedBy().getUsername());
+           mod.setUserAdd(e.getUsersAdd().stream().map(user -> user.getUsername()).collect(Collectors.toSet()));
+           mod.setUserMinus(e.getUsersAdd().stream().map(user -> user.getUsername()).collect(Collectors.toSet()));
+
+           return mod;
+       }).collect(Collectors.toList());
+
+      return ResponseEntity.ok(entity);
     }
 }

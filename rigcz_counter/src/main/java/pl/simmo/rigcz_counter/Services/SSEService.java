@@ -32,7 +32,7 @@ public class SSEService {
             List<DbEntityMod> myData = entity.stream().map( e -> {
                 DbEntityMod mod = new DbEntityMod();
                 mod.setName(e.getName());
-                mod.setCraetedBy(e.getCraetedBy());
+                mod.setCraetedBy(e.getCreatedBy().getUsername());
                 mod.setId(e.getId());
                 mod.setRigczLevel(e.getRigczLevel());
                 mod.setUserAdd(e.getUsersAdd().stream().map(add -> add.getUsername()).collect(Collectors.toSet()));
