@@ -18,6 +18,7 @@ public class DbEntity {
 
     private String name;
 
+
     private int rigczLevel;
 
     private String craetedBy;

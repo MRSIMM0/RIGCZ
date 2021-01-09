@@ -30,7 +30,7 @@ public class EntityController {
         this.service = service;
         this.userRepo = userRepo;
     }
-    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
     @PostMapping("/new")
     public DbEntity add(@RequestBody DbEntityMod entity, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -46,15 +46,15 @@ public class EntityController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
-    @PostMapping("/update")
+    @PostMapping("/add")
     public ResponseEntity<String> update(@RequestBody DbEntityMod dbEntity) {
         DbEntity db = entityRepo.findById(dbEntity.getId()).orElseThrow(() -> new RuntimeException("Error"));
 
         Set<User> usersAdd = db.getUsersAdd();
         Set<User> userMinus = db.getUsersMinus();
 
-        if (dbEntity.getUserAdd() != null) {
-            User user = userRepo.findUserByUsername(dbEntity.getUserAdd())
+
+            User user = userRepo.findUserByUsername(dbEntity.getUpdatingUser())
                     .orElseThrow(() -> new RuntimeException("User doesn't exist"));
 
             if (usersAdd.contains(user)) {
@@ -67,10 +67,22 @@ public class EntityController {
             usersAdd.add(user);
             db.setRigczLevel(db.getRigczLevel() + 1);
             db.setUsersAdd(usersAdd);
-        }
 
-        if (dbEntity.getUserMinus() != null) {
-            User user = userRepo.findUserByUsername(dbEntity.getUserMinus())
+
+        entityRepo.save(db);
+
+        return ResponseEntity.ok().build();
+    }
+    @PreAuthorize("hasRole('ADMIN') or hasRole('PM') or hasRole('USER')")
+    @PostMapping("/minus")
+    public ResponseEntity<String> miuns(@RequestBody DbEntityMod dbEntity) {
+        DbEntity db = entityRepo.findById(dbEntity.getId()).orElseThrow(() -> new RuntimeException("Error"));
+
+        Set<User> usersAdd = db.getUsersAdd();
+        Set<User> userMinus = db.getUsersMinus();
+
+
+            User user = userRepo.findUserByUsername(dbEntity.getUpdatingUser())
                     .orElseThrow(() -> new RuntimeException("User doesn't exist"));
 
             if (userMinus.contains(user)) {
@@ -85,7 +97,7 @@ public class EntityController {
             userMinus.add(user);
             db.setRigczLevel(db.getRigczLevel() - 1);
             db.setUsersMinus(userMinus);
-        }
+
 
         entityRepo.save(db);
 

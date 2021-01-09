@@ -1,5 +1,7 @@
 package pl.simmo.rigcz_counter.message.request;
 
+import java.util.Set;
+
 public class DbEntityMod {
 
     private Long id;
@@ -10,9 +12,11 @@ public class DbEntityMod {
 
     private int rigczLevel;
 
-    private String userAdd;
+    private String updatingUser;
 
-    private String userMinus;
+    private Set<String> userAdd;
+
+    private Set<String> userMinus;
 
     public String getName() {
         return name;
@@ -38,22 +42,22 @@ public class DbEntityMod {
         this.id = id;
     }
 
-    public String getUserAdd() {
+
+    public Set<String> getUserAdd() {
         return userAdd;
     }
 
-    public void setUserAdd(String userAdd) {
+    public void setUserAdd(Set<String> userAdd) {
         this.userAdd = userAdd;
     }
 
-    public String getUserMinus() {
+    public Set<String> getUserMinus() {
         return userMinus;
     }
 
-    public void setUserMinus(String userMinus) {
+    public void setUserMinus(Set<String> userMinus) {
         this.userMinus = userMinus;
     }
-
 
     public int getRigczLevel() {
         return rigczLevel;
@@ -62,4 +66,14 @@ public class DbEntityMod {
     public void setRigczLevel(int rigczLevel) {
         this.rigczLevel = rigczLevel;
     }
+
+    public String getUpdatingUser() {
+        return updatingUser;
+    }
+
+    public void setUpdatingUser(String updatingUser) {
+        this.updatingUser = updatingUser;
+    }
 }
+
+
